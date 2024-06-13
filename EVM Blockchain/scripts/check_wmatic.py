@@ -5,8 +5,10 @@ def main():
     account = accounts.load('test2')
 
     # Token contract address
-    with open('./mintaddy.txt', 'r') as f:
+    with open('./wmatic_address.txt', 'r') as f:
         token_address = f.read().strip()
+    #token_address = "0x6E6954F2412676e71a9B74850D1EEc61caa67fcA"
+
     # Load the token contract
     token = interface.IERC20(token_address)
 
@@ -16,4 +18,4 @@ def main():
     # Assuming the token has 18 decimals
     balance_in_ether = balance / 10**18
 
-    print(f"Token balance of test2: {balance_in_ether} TOKEN_SYMBOL")  # Replace TOKEN_SYMBOL with your token symbol
+    print(f"wmatic balance of test2: {balance_in_ether} TOKEN_SYMBOL")  # Replace TOKEN_SYMBOL with your token symbol

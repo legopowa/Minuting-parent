@@ -1,8 +1,9 @@
-from brownie import CalFundToken, WrappedMatic, accounts, interface, web3
-from web3 import Web3
+from brownie import CalFundToken, WrappedMatic, UniswapV2Router01, accounts, web3
 
 def main():
     account = accounts.load('test2')
+    gas_price = 9 * 10**9  # 10 gwei in wei
+    gas_limit = 10000000  # Block gas limit in Ganache
 
     # Load addresses from files
     with open('./wmatic_address.txt', 'r') as f:
@@ -14,12 +15,16 @@ def main():
     with open('./coinpair.txt', 'r') as f:
         pair_address = f.read().strip()
 
+    with open('./uniswap_router_address.txt', 'r') as f:
+        uniswap_router_address = f.read().strip()
+
     # Instantiate contracts
     custom_token = CalFundToken.at(custom_token_address)
     wmatic = WrappedMatic.at(wmatic_address)
+    uniswap_router = UniswapV2Router01.at(uniswap_router_address)
 
-    # Define the amount to add (1 ETH equivalent in this example)
-    amount_wmatic = 3 * 10**18  # 3 WMATIC
+    # Define the amount to add
+    amount_wmatic = 2 * 10**18  # 3 WMATIC
     amount_token = 7500 * 10**18  # Equivalent amount of custom token
 
     # Check balances
@@ -33,9 +38,8 @@ def main():
         raise ValueError("Insufficient token balances to add liquidity.")
 
     # Approve the Uniswap Router to spend the tokens
-    uniswap_router_address = "0x13B4e811C99DAA2293e56f6987De4969AbD34dc3"
-    wmatic.approve(uniswap_router_address, amount_wmatic, {'from': account})
-    custom_token.approve(uniswap_router_address, amount_token, {'from': account})
+    wmatic.approve(uniswap_router_address, amount_wmatic, {'from': account, 'gas_price': gas_price, 'gas_limit': gas_limit})
+    custom_token.approve(uniswap_router_address, amount_token, {'from': account, 'gas_price': gas_price, 'gas_limit': gas_limit})
 
     # Check allowances
     wmatic_allowance = wmatic.allowance(account, uniswap_router_address)
@@ -46,19 +50,19 @@ def main():
     # Ensure sufficient allowances
     if wmatic_allowance < amount_wmatic or token_allowance < amount_token:
         raise ValueError("Insufficient token allowances to add liquidity.")
-
+    pair_address = custom_token.getUniswapPair()
+    print(pair_address)
     # Interact with the Uniswap Router
-    router = interface.IUniswapV2Router02(uniswap_router_address)
-    tx = router.addLiquidity(
-        wmatic_address,
+    tx = uniswap_router.addLiquidity(
         custom_token_address,
-        amount_wmatic,
+        wmatic_address,
         amount_token,
+        amount_wmatic,
         0,  # Min WMATIC amount
         0,  # Min token amount
         account.address,
         (web3.eth.get_block('latest')['timestamp'] + 1000),
-        {'from': account}
+        {'from': account, 'gas_limit': 1000000}
     )
 
     print(f"Liquidity added. Transaction hash: {tx.txid}")

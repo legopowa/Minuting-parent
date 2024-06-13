@@ -41,10 +41,6 @@ contract CalFundToken is ERC20, Ownable {
         uniswapPair = IUniswapV2Pair(_pair);
     }
 
-    // function setMaticAddress(address _matic) external onlyOwner {
-    //     maticAddress = _matic;
-    // }
-
     function setWmaticAddress(address _wmatic) external onlyOwner {
         wmatic = IWMATIC(_wmatic);
     }
@@ -52,9 +48,9 @@ contract CalFundToken is ERC20, Ownable {
     function createPair() external onlyOwner {
         require(address(uniswapFactory) != address(0), "Uniswap factory not set");
         require(address(this) != address(0), "Token address not set");
-        require(wmatic != address(0), "WMATIC address not set");
+        require(address(wmatic) != address(0), "WMATIC address not set");
 
-        address pairAddress = uniswapFactory.createPair(address(this), wmatic);
+        address pairAddress = uniswapFactory.createPair(address(this), address(wmatic));
         uniswapPair = IUniswapV2Pair(pairAddress);
     }
 

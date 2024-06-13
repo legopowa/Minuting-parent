@@ -1,4 +1,5 @@
 from brownie import accounts, interface, Contract, network
+ 
 from web3 import Web3
 
 def main():
@@ -14,15 +15,19 @@ def main():
 
     with open('./mintaddy.txt', 'r') as f:
         custom_token_address = f.read().strip()
+        
+    with open('./uniswap_factory_address.txt', 'r') as f:
+        uniswap_factory_address = f.read().strip()
 
     # Address of the Uniswap V2 Factory
-    uniswap_factory_address = '0x586A31a288E178369FFF020bA63d2224cf8661E9'  # Uniswap V2 factory address
+    # = '0x586A31a288E178369FFF020bA63d2224cf8661E9'  # Uniswap V2 factory address
 
     # Instantiate the factory contract
     factory = interface.IUniswapV2Factory(uniswap_factory_address)
 
     # Get the pair address for the token and WMATIC
-    pair_address = factory.getPair(wmatic_address, custom_token_address)
+    #pair_address = factory.getPair(wmatic_address, custom_token_address)
+    pair_address = factory.getPair(custom_token_address, wmatic_address)
     print(f"Pair address: {pair_address}")
 
     # Check if the pair exists
