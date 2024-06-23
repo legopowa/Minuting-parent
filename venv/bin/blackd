@@ -1,4 +1,6 @@
-#!/home/devbox6/Desktop/dev/gpt-pilot/venv/bin/python3
+#!/bin/sh
+'''exec' "/home/devbox6/Desktop/dev/Minuting parent/venv/bin/python3" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/devbox6/Desktop/dev/gpt-pilot/venv"
+VIRTUAL_ENV="/home/devbox6/Desktop/dev/Minuting parent/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

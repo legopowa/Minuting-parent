@@ -1,5 +1,2 @@
 networks:
-  default: amoy
-  custom-rpc:
-    host: https://rpc-amoy.polygon.technology
-    chainid: 80002
+  default: development

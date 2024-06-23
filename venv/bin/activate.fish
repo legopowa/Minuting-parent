@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/devbox6/Desktop/dev/gpt-pilot/venv"
+set -gx VIRTUAL_ENV "/home/devbox6/Desktop/dev/Minuting parent/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

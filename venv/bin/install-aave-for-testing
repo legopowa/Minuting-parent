@@ -1,8 +1,0 @@
-#!/home/devbox6/Desktop/dev/gpt-pilot/venv/bin/python3
-# -*- coding: utf-8 -*-
-import re
-import sys
-from eth_defi.aave_v3.deployer import install_aave_for_testing
-if __name__ == '__main__':
-    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
-    sys.exit(install_aave_for_testing())
