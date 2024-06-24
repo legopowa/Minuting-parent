@@ -30,8 +30,9 @@ def main():
         "14_Activity_makethirdandfourthmasterkey",
         "15_Activity_PlayerDatabase_Grant_GameValidator",
         "16_Activity_PlayerDatabase_Grant_Onramp",
-        "17_Activity_Onboard_Test_Player_and_Validators"
-        
+        "17_Activity_Onboard_Test_Player_and_Validators",
+        "18_Activity_makefouroraclesfortestusers",
+        "19_Activity_testsubmitplayerlistsforthreevals"
     ]
 
     # Run each script in sequence

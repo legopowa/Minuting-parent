@@ -30,7 +30,7 @@ def main():
             mnemonic = f.read().strip()
         address = get_address_from_mnemonic(mnemonic)
         steam_id = f"SteamID{i+1}"
-        player_name = " ".join(mnemonic.split()[:3])
+        player_name = f"Player{i}"
         oracle_key_index1 = i + 1
         oracle_key_index2 = 0
         reward_address = address
