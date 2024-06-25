@@ -7542,7 +7542,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "8800:10:3"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 4315,
@@ -9533,7 +9532,6 @@
                           "nodeType": "VariableDeclarationStatement",
                           "src": "10625:10:3"
                         },
-                        "isSimpleCounterLoop": true,
                         "loopExpression": {
                           "expression": {
                             "id": 4476,
@@ -9682,7 +9680,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "10438:10:3"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 4451,
@@ -10606,7 +10603,6 @@
                           "nodeType": "VariableDeclarationStatement",
                           "src": "11539:10:3"
                         },
-                        "isSimpleCounterLoop": true,
                         "loopExpression": {
                           "expression": {
                             "id": 4560,
@@ -11254,7 +11250,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "11047:10:3"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 4523,
@@ -12592,7 +12587,6 @@
                           "nodeType": "VariableDeclarationStatement",
                           "src": "14589:10:3"
                         },
-                        "isSimpleCounterLoop": true,
                         "loopExpression": {
                           "expression": {
                             "id": 4715,
@@ -12741,7 +12735,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "14405:10:3"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 4689,
@@ -13339,7 +13332,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "14905:10:3"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 4754,
@@ -14502,7 +14494,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "16039:10:3"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 4855,
@@ -15840,7 +15831,6 @@
                           "nodeType": "VariableDeclarationStatement",
                           "src": "17293:10:3"
                         },
-                        "isSimpleCounterLoop": true,
                         "loopExpression": {
                           "expression": {
                             "id": 4977,
@@ -16422,7 +16412,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "17108:10:3"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 4951,
@@ -16895,7 +16884,7 @@
       "enabled": true,
       "runs": 200
     },
-    "version": "0.8.25+commit.b61c2a91"
+    "version": "0.8.20+commit.a1b79de6"
   },
   "contractName": "IPlayerDatabase",
   "coverageMap": {

@@ -6231,7 +6231,6 @@
                           "nodeType": "VariableDeclarationStatement",
                           "src": "6350:10:2"
                         },
-                        "isSimpleCounterLoop": true,
                         "loopExpression": {
                           "expression": {
                             "id": 2509,
@@ -6380,7 +6379,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "6290:10:2"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 2498,
@@ -8908,7 +8906,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "10088:10:2"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 2744,
@@ -11425,7 +11422,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "14429:10:2"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 2960,
@@ -11966,7 +11962,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "14922:10:2"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 3016,
@@ -21710,7 +21705,7 @@
       "enabled": true,
       "runs": 200
     },
-    "version": "0.8.25+commit.b61c2a91"
+    "version": "0.8.20+commit.a1b79de6"
   },
   "contractName": "IAnonID",
   "coverageMap": {

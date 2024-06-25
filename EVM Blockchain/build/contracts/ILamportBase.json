@@ -10293,7 +10293,6 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "10086:13:0"
                   },
-                  "isSimpleCounterLoop": true,
                   "loopExpression": {
                     "expression": {
                       "id": 731,
@@ -17815,7 +17814,7 @@
       "enabled": true,
       "runs": 200
     },
-    "version": "0.8.25+commit.b61c2a91"
+    "version": "0.8.20+commit.a1b79de6"
   },
   "contractName": "ILamportBase",
   "coverageMap": {

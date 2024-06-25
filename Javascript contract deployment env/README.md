@@ -1,5 +1,5 @@
 coding env is in node_modules
-To run, do npx hardhat run ./scripts/deploy.js, --network amoy, then do same for ./scripts/interaction.js
+To run, do npx hardhat run ./scripts/deploy.js, --network localhost, then do same for ./scripts/interaction.js
 generated uniswap addresses are in deployedAddresses.json, including functional UniswapV2Factory / router, two working coins and their coin pair
 set private key in .env 
 
