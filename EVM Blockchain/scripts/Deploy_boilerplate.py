@@ -32,7 +32,7 @@ def main():
         "16_Activity_PlayerDatabase_Grant_Onramp",
         "17_Activity_Onboard_Test_Player_and_Validators",
         "18_Activity_makefouroraclesfortestusers",
-        "19_Activity_testsubmitplayerlistsforthreevals"
+        #"19_Activity_testsubmitplayerlistsforthreevals"
     ]
 
     # Run each script in sequence
