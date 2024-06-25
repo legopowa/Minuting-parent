@@ -358,7 +358,7 @@ class LamportTest:
         sig = sign_hash(callhash, current_keys.pri) 
 
         
-        _contract.createMasterKeyStepOne(
+        _contract.createOracleKeyStepOne(
             current_keys.pub,
             sig,
             nextpkh,
@@ -378,7 +378,7 @@ class LamportTest:
         sig = sign_hash(callhash, current_keys.pri) 
 
         
-        _contract.createMasterKeyStepTwo(
+        _contract.createOracleKeyStepTwo(
             current_keys.pub,
             sig,
             nextpkh,
@@ -404,7 +404,7 @@ class LamportTest:
         sig = sign_hash(callhash, current_keys.pri) 
 
         
-        _contract.createMasterKeyStepOne(
+        _contract.createOracleKeyStepOne(
             current_keys.pub,
             sig,
             nextpkh,
@@ -424,7 +424,7 @@ class LamportTest:
         sig = sign_hash(callhash, current_keys.pri) 
 
         
-        _contract.createMasterKeyStepTwo(
+        _contract.createOracleKeyStepTwo(
             current_keys.pub,
             sig,
             nextpkh,
@@ -450,7 +450,7 @@ class LamportTest:
         sig = sign_hash(callhash, current_keys.pri) 
 
         
-        _contract.createMasterKeyStepOne(
+        _contract.createOracleKeyStepOne(
             current_keys.pub,
             sig,
             nextpkh,
@@ -470,7 +470,7 @@ class LamportTest:
         sig = sign_hash(callhash, current_keys.pri) 
 
         
-        _contract.createMasterKeyStepTwo(
+        _contract.createOracleKeyStepTwo(
             current_keys.pub,
             sig,
             nextpkh,
@@ -496,7 +496,7 @@ class LamportTest:
         sig = sign_hash(callhash, current_keys.pri) 
 
         
-        _contract.createMasterKeyStepOne(
+        _contract.createOracleKeyStepOne(
             current_keys.pub,
             sig,
             nextpkh,
@@ -516,7 +516,7 @@ class LamportTest:
         sig = sign_hash(callhash, current_keys.pri) 
 
         
-        _contract.createMasterKeyStepTwo(
+        _contract.createOracleKeyStepTwo(
             current_keys.pub,
             sig,
             nextpkh,
@@ -528,6 +528,9 @@ class LamportTest:
        
         master_pkh_2 = nextpkh
         oracle_pkh_3 = mtk_pkh
+        opkhs = self.get_pkh_list(_contract, 1)
+        self.load_four_oracles(opkhs, "Activityoracle")
+
         ## If you load the same key twice it'll revert
 
     # def can_test_message_functions(self, accs):
