@@ -256,7 +256,7 @@ class LamportTest:
 
         _contract = PlayerDatabase.at(contract_address)
         print("Contract referenced.")
-        print('oracle_pkh_1', oracle_pkh_1)
+        print('master_pkh_1', master_pkh_1)
         private_key = '163f5f0f9a621d72fedd85ffca3d08d131ab4e812181e0d30ffd1c885d20aac7'
         brownie_account = accounts.add(private_key)
 
@@ -297,12 +297,14 @@ class LamportTest:
             paddressToBroadcast = '0x742294571Ac5e19b28543beA69FD4955F9C7DA69' # Validator needing approval
             #server_IP = '192.168.1.1' # this needs sequential reading from tfc_servers.txt
             print("Server IP:", server_IP)
-            hashed_data = w3.solidity_keccak(['string'], [server_IP])
+            #hashed_data = w3.solidity_keccak(['bytes'], [server_IP])
+            #hashed_data = Web3.keccak(text=server_IP)
+            hashed_data = server_IP.encode('utf-8')
             print("test", hashed_data)
             print(hashed_data.hex())
             print(hashed_data.hex()[2:].encode())
             #packed_message = str.lower(paddressToBroadcast)[2:].encode() + nextpkh[2:].encode() + ('1').encode()
-            packed_message = hashed_data.hex()[2:].encode() + nextpkh[2:].encode()
+            packed_message = hashed_data.hex().encode() + nextpkh[2:].encode()
             print(packed_message)
             print(str(packed_message.decode()))
             callhash = hash_b(str(packed_message.decode()))
@@ -311,17 +313,44 @@ class LamportTest:
             brownie_account = accounts.add(private_key)
             gas_price = 2 * 10**9  # 2 gwei in wei
             gas_limit = 3000000  # Adjust as necessary
-            _contract.updateGameServerIP(
-                server_IP,
-                1,
-                current_keys.pub,
-                sig,
-                nextpkh,
-                {'from': brownie_account, 'gas_price': gas_price, 'gas_limit': gas_limit}  
-            )
-            self.k4.save(trim = False)
+            # tx = _contract.updateGameServerIP(
+            #     server_IP,
+            #     1,
+            #     current_keys.pub,
+            #     sig,
+            #     nextpkh,
+            #     {'from': brownie_account, 'gas_price': gas_price, 'gas_limit': gas_limit}  
+            # )
+            tx = _contract.getAllServerIPs()
+            print(tx)            
+            # Handling the events
+            # try:
+            #     game_server_ip_updated = tx.events['GameServerIPUpdated']
+            #     encoded_server_ip_events = tx.events['EncodedServerIP']
+            #     error_events = tx.events['Error']
+
+            #     for event in game_server_ip_updated:
+            #         server_ip = event['serverIP']
+            #         success = event['success']
+            #         message = event['message']
+            #         print(f"Game Server IP Update: IP={server_ip}, Success={success}, Message='{message}'")
+
+            #     for event in encoded_server_ip_events:
+            #         encoded_ip = event['encodedIP']
+            #         print(f"Encoded Server IP: {encoded_ip}")
+
+            #     for event in error_events:
+            #         action = event['action']
+            #         error_msg = event['error']
+            #         print(f"Error in action {action}: {error_msg}")
+
+            # except KeyError as e:
+            #     print(f"Event did not fire: {e}")
+            
             #self.k4.save(trim = False)
-            oracle_pkh_2 = nextpkh
+            #self.k4.save(trim = False)
+            master_pkh_1 = nextpkh
+            exit()
         print('Added tfc_servers.txt game servers to PlayerDatabase.')
         # End of the repeating segment
 

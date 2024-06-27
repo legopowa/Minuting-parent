@@ -98,10 +98,10 @@ contract AnonIDContract {
     uint256 private lastUsedCommission;
     bytes32 private lastUsedCommissionAddressHash;
 
-    constructor(address __commissionAddress, address lamportBaseAddress, uint256 coinCommission) {
+    constructor(address __commissionAddress, address lamportBaseAddress, uint256 __coinCommission) {
         _commissionAddress = __commissionAddress;
         lamportBase = ILamportBase(lamportBaseAddress);
-        _coinCommission = coinCommission;
+        _coinCommission = __coinCommission;
     }
 
 
@@ -307,7 +307,8 @@ contract AnonIDContract {
             require(timeDifference >= __minutes - 2, "Insufficient time passed for this increment");
         } else if (__minutes <= 5) {
             // For small increments up to 5 minutes, allow updates every 3 minutes to provide wiggle room.
-            require(timeDifference >= 3, "Update frequency too high for small increment");
+            //require(timeDifference >= 3, "Update frequency too high for small increment");
+            //something needs doing here for production, frequent update mitigation
         }
 
         // Update the minutes played.

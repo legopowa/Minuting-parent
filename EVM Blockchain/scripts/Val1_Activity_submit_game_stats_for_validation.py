@@ -278,23 +278,25 @@ class LamportTest:
         address3 = generate_address(mnemonic3)
         serverPlayersLists = [
             {
-                "serverIP": "192.168.1.1",
+                "serverIP": "172.93.101.194:27015",
                 "playerNames": ["legopowa"]
             },
             {
-                "serverIP": "192.168.1.2",
-                "playerNames": ["PlayerB", "PlayerC", "PlayerD"]
+                "serverIP": "63.143.56.124:27015",
+                "playerNames": ["Player1", "Player2", "Player3"]
             },
             {
-                "serverIP": "192.168.1.3",
+                "serverIP": "172.233.224.83:27015",
                 "playerNames": ["PlayerE", "PlayerF"]
             }
         ]         
-        data_to_hash = "192.168.1.1legopowa192.168.1.2PlayerBPlayerCPlayerD192.168.1.3PlayerEPlayerF".encode()
         formatted_lists = [
             (item["serverIP"], item["playerNames"]) for item in serverPlayersLists
         ]
         print(formatted_lists)
+
+        data_to_hash = "192.168.1.1legopowa192.168.1.2PlayerBPlayerCPlayerD192.168.1.3PlayerEPlayerF".encode()
+
         #hashed_data = compute_keccak_hash(formatted_lists).encode()
         # Use web3.solidityKeccak to hash the data
         hashed_data = w3.solidity_keccak(['bytes'], [data_to_hash])
@@ -321,17 +323,17 @@ class LamportTest:
         #private_key = '0x50e0105db0e25befff67c7596b91f72377b0fd8bb6f917ab46b91d7663fceb4c'
         #brownie_account = accounts.add(private_key)
         
-        _contract.updateGameServerIP(
-            server_IP,
-            2,
-            current_keys.pub,
-            sig,
-            nextpkh,
-            {'from': account, 'gas_limit': 3999999}    
-        )
-        self.k3.save(trim = False)
-        #self.k4.save(trim = False)
-        oracle_pkh_2 = nextpkh
+        # _contract.updateGameServerIP(
+        #     server_IP,
+        #     2,
+        #     current_keys.pub,
+        #     sig,
+        #     nextpkh,
+        #     {'from': account, 'gas_limit': 3999999}    
+        # )
+        # self.k3.save(trim = False)
+        # #self.k4.save(trim = False)
+        # oracle_pkh_2 = nextpkh
 
         # #current_keys = self.k2.load(self, "Gmaster2", master_pkh_2)
         # #next_keys = self.k2.get_next_key_pair()
@@ -346,13 +348,16 @@ class LamportTest:
 
 
         # #validator = 0x72Bb7788cdA33503F247A818556c918f57cCa6c3
+        gas_price = 2 * 10**9  # 2 gwei in wei
+        gas_limit = 3000000  # Adjust as necessary
+
+        _contract.submitPlayerListStepTwo(
+            formatted_lists,
+            address1,
+            1,
+            {'from': account, 'gas_price': gas_price, 'gas_limit': gas_limit}
+        )
 
 
-        # _contract.submitPlayerListStepTwo(
-        #     formatted_lists,
-        #     address1,
-        #     1,
-        #     {'from': account, 'gas_limit': 3999999} 
-        # )
         #self.k2.save(trim = False)
         exit()

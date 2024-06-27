@@ -35,12 +35,12 @@ contract Activity_Mint {
     constructor(
         address lamportBaseAddress,
         address initialAuthorizedMinter,
-        string memory name,
-        string memory symbol
+        string memory __name,
+        string memory __symbol
     ) {
         lamportBase = ILamportBase(lamportBaseAddress);
-        _name = name;
-        _symbol = symbol;
+        _name = __name;
+        _symbol = __symbol;
         _initializeMintProcess(initialAuthorizedMinter);
     }
 
@@ -111,6 +111,15 @@ contract Activity_Mint {
         // Clear the temporary storage for the proposed minter
         delete proposedMinters[msg.sender];
     }
+
+    // testing only
+    function debugAddMinter(
+        address minter    
+    ) public returns (bool) {
+        authorizedMinter = minter;
+        return true;
+    }
+    // testing only
 
     function removeAuthorizedMinterStepOne(
         bytes32[2][256] calldata currentpub,

@@ -48,6 +48,9 @@ def main():
             _rewardAddress,
             {'from': deployer, 'gas_price': gas_price, 'gas_limit': gas_limit}
         )
-        print(f"Onboarded {_address} with SteamID {_steamID} and player name {_playerName}")
+        tx2 = player_onboard_contract.registerValidator(
+            _address
+        )
+        print(f"Onboarded {_address} as a validator, with SteamID {_steamID} and player name {_playerName}")
 
     print("Player onboarding complete.")

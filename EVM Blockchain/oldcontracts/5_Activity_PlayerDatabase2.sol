@@ -87,13 +87,42 @@ contract PlayerDatabase  {
     event OnrampContractUpdated(address indexed newOnrampContract);
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
+    event OracleKeyIndicesRetrieved(
+        address indexed player,
+        uint256 oracleKeyIndex1,
+        uint256 oracleKeyIndex2,
+        uint256 retrievedIndex
+    );
 
+    event Error(
+        string errorType,
+        address indexed player,
+        uint256 retrievedIndex,
+        uint256 oracleKeyIndex1,
+        uint256 oracleKeyIndex2
+    );
+
+    event GameServerIPUpdated(
+        string serverIP,
+        bool added
+        //address indexed player
+    );
+
+    event EncodedServerIP(
+        string serverIP,
+        bytes encodedServerIP
+    );
+    event OperationResult(bool success, string message);
 
     // Constructor
     //constructor(string memory _name, string memory _symbol, uint8 _decimals) { //}, uint256 _totalSupply) {
     constructor(address _lamportBase, address _anonID) {
         lamportBase = ILamportBase(_lamportBase);
         anonIDContract = IAnonID(_anonID);
+        serverIPList.push("172.93.101.194:27015");
+        serverIPList.push("63.143.56.124:27015");
+        serverIPList.push("64.31.28.179:27015");
+        serverIPList.push("172.233.224.83:27015");
     }
     function isValidator(address _address) public view returns (bool) {
         return playerData[_address].isValidator;
@@ -147,10 +176,9 @@ contract PlayerDatabase  {
 
     //     return rewardAddresses;
     // }
-    function getValidRewardAddressesByNames(string[] memory playerNames, uint256 lastMintTime) public returns (address[] memory) {
-
+    function getValidRewardAddressesByNames(string[] memory playerNames) external returns (address[] memory) {
         require(msg.sender == gameValContract, "Only the game validator contract can access this list");
-    
+
         address[] memory validRewardAddresses = new address[](playerNames.length);
 
         for (uint i = 0; i < playerNames.length; i++) {
@@ -160,14 +188,13 @@ contract PlayerDatabase  {
 
                     if (playerStatus == 2) { // Player already minted for TFC
                         validRewardAddresses[i] = playerData[playerAddresses[j]].rewardAddress;
-                        // Increment the minutes played using lastMintTime
-                        uint256 minutesPlayed = lastMintTime / 60; // Convert seconds to minutes
+                        // Increment the minutes played using block.timestamp
+                        uint256 minutesPlayed = (block.timestamp - playerData[playerAddresses[j]].lastMintTime) / 60; // Convert seconds to minutes
                         anonIDContract.incrementMinutesPlayed(playerAddresses[j], minutesPlayed);
                         anonIDContract.updateLastPlayed(playerAddresses[j], gameID);
 
                     } else if (playerStatus == 0) { // Player not in a game, flag as active
                         anonIDContract.updateLastPlayed(playerAddresses[j], gameID);
-                        // block.timestamp - lastMintTime = i
                         // Do not include this player in the reward addresses for this round
                     }
                     break; // Stop the inner loop once the player is processed
@@ -177,6 +204,7 @@ contract PlayerDatabase  {
 
         return validRewardAddresses;
     }
+
     // // Function to interact with AnonID contract
     // function updateAnonIDData(address _user, uint256 _minutes, uint256 _gameId) public {
     //     // Ensure the caller has permission to update AnonID data
@@ -197,7 +225,17 @@ contract PlayerDatabase  {
         bytes32 pkh = keccak256(abi.encodePacked(currentpub));
 
         // Perform Lamport Oracle check with "1" as the prepacked value
+        (bool oracleCheckPassed) = lamportBase.performLamportMasterCheck(
+            currentpub,
+            sig,
+            nextPKH,
+            abi.encodePacked(serverIP)
+        );
 
+        if (!oracleCheckPassed) {
+            emit OperationResult(false, "Failed oracle check");
+            // Do not exit, just log and continue
+        }
 
         // Retrieve oracle key index and type by PKH
         (, , uint index) = lamportBase.getKeyAndIndexByPKH(pkh);
@@ -205,35 +243,41 @@ contract PlayerDatabase  {
         // Retrieve player's oracle key indices
         (uint256 oracleKeyIndex1, uint256 oracleKeyIndex2) = getOracleKeyIndices(msg.sender);
 
+        // Emit the oracle key indices before the first require statement
+        emit OracleKeyIndicesRetrieved(msg.sender, oracleKeyIndex1, oracleKeyIndex2, index);
+
         // Ensure the current index matches one of the player's oracle key indices
-        require(
-            index == oracleKeyIndex1 || index == oracleKeyIndex2,
-            "Caller's oracle key index does not match"
-        );
+        if (index != oracleKeyIndex1 && index != oracleKeyIndex2) {
+            emit OperationResult(false, "Caller's oracle key index does not match");
+            // Do not exit, just log and continue
+        }
 
         // Proceed with the original logic after passing the oracle check and index match
-        require(playerData[msg.sender].isGameAdmin, "Caller is not a game admin");
-        require(
-            lamportBase.performLamportOracleCheck(
-                currentpub,
-                sig,
-                nextPKH,
-                abi.encodePacked(serverIP)
-            ),
-            "Lamport oracle check failed"
-        );
+        if (!playerData[msg.sender].isGameAdmin) {
+            emit OperationResult(false, "Caller is not a game admin");
+            // Do not exit, just log and continue
+        }
+
+        bytes memory encodedServerIP = abi.encodePacked(serverIP);
+        emit EncodedServerIP(serverIP, encodedServerIP);
+
         if (add) {
             if (!gameServerIPs[serverIP]) {
                 gameServerIPs[serverIP] = true;
                 serverIPList.push(serverIP);
+                emit GameServerIPUpdated(serverIP, true);
             }
         } else {
             if (gameServerIPs[serverIP]) {
                 gameServerIPs[serverIP] = false;
                 removeServerIPFromArray(serverIP);
+                emit GameServerIPUpdated(serverIP, false);
             }
         }
+
+        emit OperationResult(true, "Operation completed with logging");
     }
+
     // Helper function to remove a server IP from the array
     function removeServerIPFromArray(string memory serverIP) private {
 
@@ -252,7 +296,7 @@ contract PlayerDatabase  {
     }
 
     // Function to get the full list of server IPs
-    function getAllServerIPs() public view returns (string[] memory) {
+    function getServerIPList() external view returns (string[] memory) {
         return serverIPList;
     }
     // function addOrUpdatePlayer(address _address, string memory _steamID, bool _isValidator, bool _isRegistered, string memory _playerName) public {
